@@ -24,3 +24,8 @@ map("v", "p", '"_dP', opts)
 -- Move lines up and down
 map("v", "J", ":m '>+1<CR>gv=gv", opts) 
 map("v", "K", ":m '<-2<CR>gv=gv", opts)
+
+vim.keymap.set("n", "<leader>fv", function()
+  local out = vim.fn.expand("%:p:r") .. ".pdf"
+  vim.fn.jobstart({ "zathura", out })
+end, { buffer = true, desc = "Fountain: Preview in Zathura" })

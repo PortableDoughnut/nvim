@@ -14,3 +14,6 @@ vim.opt.updatetime = 50         -- Faster completion
 vim.opt.colorcolumn = "80"      -- Show a column at 80 characters
 vim.opt.guifont = "JetBrainsMono Nerd Font:h14"  -- matches your terminal font
 vim.opt.termguicolors = true
+
+vim.g.mapleader = " "       -- Space as leader
+vim.g.maplocalleader = ","  -- comma as local leader (optional)

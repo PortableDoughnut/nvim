@@ -20,3 +20,25 @@ autocmd('VimResized', {
         vim.cmd('tabdo wincmd =')
     end,
 })
+
+vim.filetype.add({
+  extension = {
+    fountain = "fountain",
+  },
+})
+
+-- inside the same FileType autocmd callback
+vim.api.nvim_create_autocmd("BufWritePost", {
+  buffer = 0,  -- current buffer only
+  callback = function()
+    local file = vim.fn.expand("%:p")
+    local out  = vim.fn.expand("%:p:r") .. ".pdf"
+    local cmd  = string.format("afterwriting --source %s --pdf %s",
+                   vim.fn.shellescape(file),
+                   vim.fn.shellescape(out))
+    vim.fn.jobstart(cmd)  -- silent background export
+  end,
+  desc = "Fountain: Auto-export PDF on save",
+})
+
+
