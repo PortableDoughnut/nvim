@@ -25,6 +25,18 @@ map("v", "p", '"_dP', opts)
 map("v", "J", ":m '>+1<CR>gv=gv", opts) 
 map("v", "K", ":m '<-2<CR>gv=gv", opts)
 
+-- Yank into system clipboard
+vim.keymap.set({'n', 'v'}, '<leader>y', '"+y') -- yank motion
+vim.keymap.set({'n', 'v'}, '<leader>Y', '"+Y') -- yank line
+
+-- Delete into system clipboard
+vim.keymap.set({'n', 'v'}, '<leader>d', '"+d') -- delete motion
+vim.keymap.set({'n', 'v'}, '<leader>D', '"+D') -- delete line
+
+-- Paste from system clipboard
+vim.keymap.set('n', '<leader>p', '"+p')  -- paste after cursor
+vim.keymap.set('n', '<leader>P', '"+P')  -- paste before cursor
+
 vim.keymap.set("n", "<leader>fv", function()
   local out = vim.fn.expand("%:p:r") .. ".pdf"
   vim.fn.jobstart({ "zathura", out })

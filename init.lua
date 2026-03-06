@@ -27,4 +27,18 @@ require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 
+vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.api.nvim_create_user_command('SwiftRun', 'cexpr system("swift " . expand("%")) | copen', {})
+
+-- Use Kitty's OSC 52 clipboard (bypasses Wayland clipboard entirely)
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
