@@ -17,3 +17,4 @@ vim.opt.termguicolors = true
 
 vim.g.mapleader = " "       -- Space as leader
 vim.g.maplocalleader = ","  -- comma as local leader (optional)
+vim.opt.clipboard = "unnamedplus"
