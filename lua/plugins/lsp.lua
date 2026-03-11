@@ -12,7 +12,7 @@ return {
 
       -- Set up mason-lspconfig to ensure servers are installed
       require("mason-lspconfig").setup({
-        ensure_installed = { "sourcekit", "lua_ls" }, -- add servers you want
+        ensure_installed = { "sourcekit", "lua_ls", "ast-grep", "beautysh"  }, -- add servers you want
         -- Optional: automatic setup (see note below)
       })
 
@@ -62,7 +62,7 @@ return {
       })
 
       -- Enable both servers
-      vim.lsp.enable({ 'sourcekit', 'lua_ls' })
+      vim.lsp.enable({ 'sourcekit', 'lua_ls', 'ast-grep', 'beautysh'})
     end
   }
 }
