@@ -27,6 +27,13 @@ vim.filetype.add({
   },
 })
 
+vim.filetype.add({
+  extension = {
+    jsx = "javascriptreact",
+    tsx = "typescriptreact",
+  },
+})
+
 -- inside the same FileType autocmd callback
 vim.api.nvim_create_autocmd("BufWritePost", {
   buffer = 0,  -- current buffer only

@@ -7,44 +7,66 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      -- Set up mason (installer)
       require("mason").setup()
-
-      -- Set up mason-lspconfig to ensure servers are installed
       require("mason-lspconfig").setup({
-        ensure_installed = { "sourcekit", "lua_ls", "ast-grep", "beautysh"  }, -- add servers you want
-        -- Optional: automatic setup (see note below)
+        -- Only Mason-installable servers here, no formatters
+        ensure_installed = { "lua_ls" },
+        automatic_installation = false, -- important on NixOS
       })
 
-      -- Common on_attach function (unchanged)
       local on_attach = function(client, bufnr)
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+        vim.keymap.set('n', 'K',  vim.lsp.buf.hover, bufopts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
         vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
       end
 
-      -- Capabilities (unchanged)
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.workspace.didChangeWatchedFiles = {
         dynamicRegistration = true,
       }
 
-      -- ------------------------------------------------------------------
-      -- NEW WAY: Define server configurations with vim.lsp.config
-      -- ------------------------------------------------------------------
+      -- TypeScript / JavaScript (install via: npm i -g typescript-language-server)
+      vim.lsp.config('ts_ls', {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+        },
+        settings = {
+            typescript = {
+                inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                    includeInlayVariableTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                },
+            },
+        },
+      })
 
-      -- SourceKit-LSP (Swift)
+    vim.lsp.config('cssls', {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
+
+    vim.lsp.config('jsonls', {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
+
+      -- Swift
       vim.lsp.config('sourcekit', {
         on_attach = on_attach,
         capabilities = capabilities,
-        -- No explicit cmd needed if sourcekit-lsp is in PATH (Mason adds it)
       })
 
-      -- Lua language server (for editing your Neovim config)
+      -- Lua
       vim.lsp.config('lua_ls', {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -61,8 +83,8 @@ return {
         },
       })
 
-      -- Enable both servers
-      vim.lsp.enable({ 'sourcekit', 'lua_ls', 'ast-grep', 'beautysh'})
+      -- Enable all servers
+    vim.lsp.enable({ 'ts_ls', 'eslint', 'cssls', 'jsonls', 'sourcekit', 'lua_ls', 'sourcekit' }) 
     end
   }
 }
