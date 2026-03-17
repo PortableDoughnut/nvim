@@ -11,7 +11,7 @@ return {
         cursorword = {
             enable = true,
             min_length = 3,
-            hl = { underline = true },
+            hl = { underline = true, sp = "#CBA6F7" },
         },
         disable_filetypes = {
             'alpha',
